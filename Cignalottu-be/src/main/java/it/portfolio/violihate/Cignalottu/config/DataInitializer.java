@@ -17,8 +17,15 @@ public class DataInitializer {
 
     private static final Logger log = LoggerFactory.getLogger(DataInitializer.class);
 
+    private final PasswordEncoder passwordEncoder;
+
+    public DataInitializer(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
+
     @Bean
-    @Profile("dev")  // ← esegue SOLO quando attivi il profile "dev" (opzionale ma fortemente consigliato)
+    @Profile("dev")  // da esuire solo in configurazione dev
     CommandLineRunner initTestUsers(
             UserRepository userRepository,
             PasswordEncoder passwordEncoder) {
@@ -80,7 +87,7 @@ public class DataInitializer {
             return;
         }
 
-        User user = new User(email, rawPassword, firstName, lastName, role);
+        User user = new User(email, passwordEncoder.encode(rawPassword), firstName, lastName, role);
 
         repo.save(user);
         log.info("Creato utente: {} ({})", email, role);
