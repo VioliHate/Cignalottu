@@ -25,7 +25,7 @@ public class DataInitializer {
 
 
     @Bean
-    @Profile("dev")  // da esuire solo in configurazione dev
+    @Profile("dev")  // da eseguire solo in configurazione dev
     CommandLineRunner initTestUsers(
             UserRepository userRepository,
             PasswordEncoder passwordEncoder) {
