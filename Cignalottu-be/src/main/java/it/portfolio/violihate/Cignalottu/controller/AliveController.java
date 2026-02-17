@@ -1,6 +1,6 @@
-package it.portfolio.violihate.Cignalottu.controller;
+package it.portfolio.violihate.cignalottu.controller;
 
-import it.portfolio.violihate.Cignalottu.dto.response.AliveResponse;
+import it.portfolio.violihate.cignalottu.dto.response.AliveResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

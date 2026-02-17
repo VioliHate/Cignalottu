@@ -1,4 +1,4 @@
-package it.portfolio.violihate.Cignalottu.config;
+package it.portfolio.violihate.cignalottu.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

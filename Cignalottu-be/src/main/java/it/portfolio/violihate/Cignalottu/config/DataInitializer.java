@@ -1,9 +1,9 @@
-package it.portfolio.violihate.Cignalottu.config;
+package it.portfolio.violihate.cignalottu.config;
 
 
-import it.portfolio.violihate.Cignalottu.entity.Role;
-import it.portfolio.violihate.Cignalottu.entity.User;
-import it.portfolio.violihate.Cignalottu.repository.UserRepository;
+import it.portfolio.violihate.cignalottu.entity.Role;
+import it.portfolio.violihate.cignalottu.entity.User;
+import it.portfolio.violihate.cignalottu.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;

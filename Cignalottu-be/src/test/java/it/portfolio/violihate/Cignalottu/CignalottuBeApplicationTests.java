@@ -1,4 +1,4 @@
-package it.portfolio.violihate.Cignalottu;
+package it.portfolio.violihate.cignalottu;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
