@@ -93,11 +93,10 @@ public class JwtTokenProvider {
     }
 
     private Claims getClaimsFromToken(String token) {
-        return Jwts.parserBuilder()
+        JwtParser parser = Jwts.parserBuilder()
                 .setSigningKey(secretKey)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .build();
+        return parser.parseClaimsJws(token).getBody();
     }
 
     public List<String> getRolesFromToken(String token) {
@@ -109,6 +108,15 @@ public class JwtTokenProvider {
         return Arrays.stream(rolesStr.split(","))
                 .map(String::trim)
                 .toList();
+    }
+
+    // Only for test
+    public SecretKey getSecretKeyForTesting() {
+        return secretKey;
+    }
+
+    public Long getJwtExpirationMs() {
+        return jwtExpirationMs;
     }
 }
 
