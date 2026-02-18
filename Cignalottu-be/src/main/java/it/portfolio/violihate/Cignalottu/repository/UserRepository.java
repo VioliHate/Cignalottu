@@ -1,7 +1,7 @@
-package it.portfolio.violihate.Cignalottu.repository;
+package it.portfolio.violihate.cignalottu.repository;
 
-import it.portfolio.violihate.Cignalottu.entity.Role;
-import it.portfolio.violihate.Cignalottu.entity.User;
+import it.portfolio.violihate.cignalottu.entity.Role;
+import it.portfolio.violihate.cignalottu.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

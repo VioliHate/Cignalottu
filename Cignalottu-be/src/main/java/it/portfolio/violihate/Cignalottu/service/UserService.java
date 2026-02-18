@@ -1,10 +1,10 @@
-package it.portfolio.violihate.Cignalottu.service;
+package it.portfolio.violihate.cignalottu.service;
 
-import it.portfolio.violihate.Cignalottu.dto.request.RegisterRequest;
-import it.portfolio.violihate.Cignalottu.dto.response.RegisterResponse;
-import it.portfolio.violihate.Cignalottu.entity.Role;
-import it.portfolio.violihate.Cignalottu.entity.User;
-import it.portfolio.violihate.Cignalottu.repository.UserRepository;
+import it.portfolio.violihate.cignalottu.dto.request.RegisterRequest;
+import it.portfolio.violihate.cignalottu.dto.response.RegisterResponse;
+import it.portfolio.violihate.cignalottu.entity.Role;
+import it.portfolio.violihate.cignalottu.entity.User;
+import it.portfolio.violihate.cignalottu.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

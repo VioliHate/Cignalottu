@@ -1,4 +1,4 @@
-package it.portfolio.violihate.Cignalottu.entity;
+package it.portfolio.violihate.cignalottu.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

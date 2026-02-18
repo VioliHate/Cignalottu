@@ -1,4 +1,4 @@
-package it.portfolio.violihate.Cignalottu.dto.response;
+package it.portfolio.violihate.cignalottu.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package it.portfolio.violihate.Cignalottu.dto.request;
+package it.portfolio.violihate.cignalottu.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
-package it.portfolio.violihate.Cignalottu.dto.response;
+package it.portfolio.violihate.cignalottu.dto.response;
 
-import it.portfolio.violihate.Cignalottu.entity.User;
+import it.portfolio.violihate.cignalottu.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
