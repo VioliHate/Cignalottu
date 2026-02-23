@@ -30,12 +30,14 @@ public class UserService {
 
     @Transactional
     public RegisterResponse register(RegisterRequest dto) {
-        if (userRepository.existsByEmail(dto.email())) {
-            throw new IllegalArgumentException("Email già in uso");
+
+        String normalizedEmail = dto.email().trim().toLowerCase();
+        if (userRepository.existsByEmail(normalizedEmail)) {
+            throw new IllegalArgumentException("Email: " + normalizedEmail +" già in uso");
         }
 
         User user = new User();
-        user.setEmail(dto.email().trim().toLowerCase());
+        user.setEmail(normalizedEmail);
         user.setPassword(passwordEncoder.encode(dto.password()));
         user.setFirstName(dto.firstName());
         user.setLastName(dto.lastName());
