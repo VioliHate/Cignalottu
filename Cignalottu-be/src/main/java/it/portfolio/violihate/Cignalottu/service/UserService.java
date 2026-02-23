@@ -5,6 +5,7 @@ import it.portfolio.violihate.cignalottu.dto.response.RegisterResponse;
 import it.portfolio.violihate.cignalottu.entity.Role;
 import it.portfolio.violihate.cignalottu.entity.User;
 import it.portfolio.violihate.cignalottu.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 public class UserService {
