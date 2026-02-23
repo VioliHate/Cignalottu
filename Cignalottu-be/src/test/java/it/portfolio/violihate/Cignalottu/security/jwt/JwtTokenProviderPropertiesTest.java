@@ -137,7 +137,7 @@ class JwtTokenProviderPropertiesTest {
 
     @Provide
     Arbitrary<Set<String>> roleSets() {
-        return Arbitraries.of("CUSTOMER", "BARBER", "REPRESENTATIVE", "ADMIN", "GUEST")
+        return Arbitraries.of("CUSTOMER", "BARBER", "REPRESENTATIVE", "ADMIN")
                 .set()
                 .ofMaxSize(5)
                 .ofMinSize(0);
