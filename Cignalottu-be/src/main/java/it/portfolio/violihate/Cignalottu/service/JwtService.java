@@ -56,6 +56,15 @@ public class JwtService {
                 .compact();
     }
 
+    public String extractEmail(String token) {
+        try {
+            Claims claims = getClaims(token);
+            return claims.getSubject();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     @SuppressWarnings("deprecation")
     private Claims getClaims(String token) {
         return Jwts.parser()

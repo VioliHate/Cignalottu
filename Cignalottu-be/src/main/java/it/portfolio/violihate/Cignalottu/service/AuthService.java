@@ -1,9 +1,19 @@
 package it.portfolio.violihate.cignalottu.service;
 
+import it.portfolio.violihate.cignalottu.dto.request.LoginRequest;
+import it.portfolio.violihate.cignalottu.dto.request.RegisterRequest;
+import it.portfolio.violihate.cignalottu.dto.response.AuthResponse;
+import it.portfolio.violihate.cignalottu.dto.response.RegisterResponse;
+import it.portfolio.violihate.cignalottu.entity.User;
+import it.portfolio.violihate.cignalottu.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.regex.Pattern;
 
@@ -17,4 +27,109 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+
+
+    @Transactional
+    public AuthResponse register(RegisterRequest request) {
+        validateRegistrationInput(request);
+
+        User savedUser = userService.registerUser(request);
+
+        UserDetailsImpl userDetails = new UserDetailsImpl(savedUser);
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                userDetails,
+                null,
+                userDetails.getAuthorities()
+        );
+
+        String accessToken = jwtService.generateAccessToken(authentication);
+        String refreshToken = jwtService.generateRefreshToken(authentication);
+
+        log.info("Registrazione e auto-login completati per: {}", savedUser.getEmail().trim().toLowerCase());
+
+        return buildAuthResponse(accessToken, refreshToken, savedUser);
+    }
+
+
+    public AuthResponse login(LoginRequest request) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.email(),
+                            request.password()
+                    )
+            );
+
+            UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
+            User user = principal.user();
+
+            String accessToken = jwtService.generateAccessToken(authentication);
+            String refreshToken = jwtService.generateRefreshToken(authentication);
+
+            log.info("Login riuscito per: {}", request.email());
+
+            return buildAuthResponse(accessToken, refreshToken, user);
+
+        } catch (BadCredentialsException e) {
+            log.warn("Login fallito per: {}", request.email());
+            throw e;
+        }
+    }
+
+
+    @Transactional(readOnly = true)
+    public AuthResponse refresh(String refreshToken) {
+        String email = jwtService.extractEmail(refreshToken);
+
+        if (email == null || !jwtService.isTokenValid(refreshToken, email)) {
+            throw new BadCredentialsException("Refresh token non valido o scaduto");
+        }
+
+        User user = userService.findByEmail(email);
+        UserDetailsImpl userDetails = new UserDetailsImpl(user);
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                userDetails,
+                null,
+                userDetails.getAuthorities()
+        );
+        String newAccessToken = jwtService.generateAccessToken(authentication);
+
+        return buildAuthResponse(newAccessToken, refreshToken, user);
+    }
+
+
+    private void validateRegistrationInput(RegisterRequest req) {
+        if (req.email() == null || !EMAIL_PATTERN.matcher(req.email()).matches()) {
+            throw new IllegalArgumentException("Formato email non valido");
+        }
+
+        if (req.password() == null || req.password().length() < 8) {
+            throw new IllegalArgumentException("La password deve avere almeno 8 caratteri");
+        }
+
+        if (!req.password().matches(".*[A-Z].*")) {
+            throw new IllegalArgumentException("La password deve contenere almeno una lettera maiuscola");
+        }
+
+        if (!req.password().matches(".*[a-z].*")) {
+            throw new IllegalArgumentException("La password deve contenere almeno una lettera minuscola");
+        }
+
+        if (!req.password().matches(".*\\d.*")) {
+            throw new IllegalArgumentException("La password deve contenere almeno un numero");
+        }
+    }
+
+    private AuthResponse buildAuthResponse(String accessToken, String refreshToken, User user) {
+        return new AuthResponse(
+                accessToken,
+                refreshToken,
+                "Bearer",
+                user.getId(),
+                user.getEmail(),
+                user.getRole().name()
+        );
+    }
 }

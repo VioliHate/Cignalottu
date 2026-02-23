@@ -25,7 +25,7 @@ public class UserService {
 
 
     @Transactional
-    public RegisterResponse registerUser(RegisterRequest dto) {
+    public User registerUser(RegisterRequest dto) {
 
         String normalizedEmail = dto.email().trim().toLowerCase();
         if (userRepository.existsByEmail(normalizedEmail)) {
@@ -41,14 +41,16 @@ public class UserService {
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
 
-        User saved = userRepository.save(user);
-
-        return new RegisterResponse(saved);
+        return userRepository.save(user);
     }
 
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Utente non trovato con email: " + email));
+    }
+
+    public RegisterResponse toRegisterResponse(User user) {
+        return new RegisterResponse(user);
     }
 }
