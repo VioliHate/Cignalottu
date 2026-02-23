@@ -1,18 +1,15 @@
 package it.portfolio.violihate.cignalottu.dto.request;
 
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
-public class LoginRequest {
+public record LoginRequest (
+        @NotBlank(message = "L'email non può essere vuota")
+        @Email(message = "Formato email non valido")
+        String email,
 
-    @NotBlank
-    @Email
-    private String email;
-
-    @NotBlank
-    private String password;
+        @NotBlank(message = "La password non può essere vuota")
+        String password)
+{
 }

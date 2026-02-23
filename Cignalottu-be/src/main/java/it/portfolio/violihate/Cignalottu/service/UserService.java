@@ -30,15 +30,15 @@ public class UserService {
 
     @Transactional
     public RegisterResponse register(RegisterRequest dto) {
-        if (userRepository.existsByEmail(dto.getEmail())) {
+        if (userRepository.existsByEmail(dto.email())) {
             throw new IllegalArgumentException("Email già in uso");
         }
 
         User user = new User();
-        user.setEmail(dto.getEmail().trim().toLowerCase());
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setFirstName(dto.getFirstName());
-        user.setLastName(dto.getLastName());
+        user.setEmail(dto.email().trim().toLowerCase());
+        user.setPassword(passwordEncoder.encode(dto.password()));
+        user.setFirstName(dto.firstName());
+        user.setLastName(dto.lastName());
         user.setRole(Role.CUSTOMER);
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
