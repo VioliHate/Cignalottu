@@ -5,8 +5,8 @@ import it.portfolio.violihate.cignalottu.dto.response.RegisterResponse;
 import it.portfolio.violihate.cignalottu.entity.Role;
 import it.portfolio.violihate.cignalottu.entity.User;
 import it.portfolio.violihate.cignalottu.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,20 +16,16 @@ import java.time.LocalDateTime;
 @Slf4j
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
 
     @Transactional
-    public RegisterResponse register(RegisterRequest dto) {
+    public RegisterResponse registerUser(RegisterRequest dto) {
 
         String normalizedEmail = dto.email().trim().toLowerCase();
         if (userRepository.existsByEmail(normalizedEmail)) {
@@ -48,5 +44,11 @@ public class UserService {
         User saved = userRepository.save(user);
 
         return new RegisterResponse(saved);
+    }
+
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Utente non trovato con email: " + email));
     }
 }
