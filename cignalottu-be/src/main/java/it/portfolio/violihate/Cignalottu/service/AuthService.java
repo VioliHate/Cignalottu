@@ -4,17 +4,23 @@ import it.portfolio.violihate.cignalottu.dto.request.LoginRequest;
 import it.portfolio.violihate.cignalottu.dto.request.RegisterRequest;
 import it.portfolio.violihate.cignalottu.dto.response.AuthResponse;
 import it.portfolio.violihate.cignalottu.dto.response.RegisterResponse;
+import it.portfolio.violihate.cignalottu.entity.Provider;
+import it.portfolio.violihate.cignalottu.entity.Role;
 import it.portfolio.violihate.cignalottu.entity.User;
+import it.portfolio.violihate.cignalottu.repository.UserRepository;
 import it.portfolio.violihate.cignalottu.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 
 @Slf4j
@@ -25,6 +31,8 @@ public class AuthService {
     private final UserService userService;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+
+    private final UserRepository userRepository;
 
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 
@@ -53,10 +61,12 @@ public class AuthService {
 
 
     public AuthResponse login(LoginRequest request) {
+        String normalizedEmail = request.email().trim().toLowerCase();
+
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            request.email(),
+                            normalizedEmail,
                             request.password()
                     )
             );
@@ -64,16 +74,20 @@ public class AuthService {
             UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
             User user = principal.user();
 
+            if (Provider.GOOGLE.equals(user.getProvider())) {
+                throw new BadCredentialsException("Account registrato con Google. Usa Google.");
+            }
+
             String accessToken = jwtService.generateAccessToken(authentication);
             String refreshToken = jwtService.generateRefreshToken(authentication);
 
-            log.info("Login riuscito per: {}", request.email());
+            log.info("Login riuscito per: {}", normalizedEmail);
 
             return buildAuthResponse(accessToken, refreshToken, user);
 
         } catch (BadCredentialsException e) {
-            log.warn("Login fallito per: {}", request.email());
-            throw e;
+            log.warn("Tentativo di login fallito");
+            throw new BadCredentialsException("Credenziali non valide");
         }
     }
 
@@ -97,6 +111,46 @@ public class AuthService {
         String newAccessToken = jwtService.generateAccessToken(authentication);
 
         return buildAuthResponse(newAccessToken, refreshToken, user);
+    }
+
+
+    @Transactional
+    public AuthResponse processOAuth2User(String email, String name, String googleId) {
+        String normalizedEmail = email.trim().toLowerCase();
+
+        User user = userRepository.findByEmail(normalizedEmail)
+                .orElseGet(() -> {
+                    User newUser = new User();
+                    newUser.setEmail(normalizedEmail);
+                    newUser.setPassword(null);
+                    newUser.setFirstName(name != null ? name.trim() : "Utente Google");
+                    newUser.setLastName("");
+                    newUser.setRole(Role.CUSTOMER);
+                    newUser.setProvider(Provider.GOOGLE);
+                    newUser.setProviderId(googleId);
+                    newUser.setCreatedAt(LocalDateTime.now());
+                    newUser.setUpdatedAt(LocalDateTime.now());
+                    return userRepository.save(newUser);
+                });
+
+        if (!Provider.GOOGLE.equals(user.getProvider())) {
+            user.setProvider(Provider.GOOGLE);
+            user.setProviderId(googleId);
+            user.setUpdatedAt(LocalDateTime.now());
+            user = userRepository.save(user);
+        }
+
+        UserDetailsImpl userDetails = new UserDetailsImpl(user);
+        Authentication auth = new UsernamePasswordAuthenticationToken(
+                userDetails,
+                null,
+                userDetails.getAuthorities()
+        );
+
+        String accessToken = jwtService.generateAccessToken(auth);
+        String refreshToken = jwtService.generateRefreshToken(auth);
+
+        return buildAuthResponse(accessToken, refreshToken, user);
     }
 
 

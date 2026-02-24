@@ -31,6 +31,13 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Provider provider = Provider.LOCAL;  // default LOCAL
+
+    @Column
+    private String providerId;
+
     private LocalDateTime createdAt=LocalDateTime.now();
     private LocalDateTime updatedAt = LocalDateTime.now();
 
@@ -42,11 +49,13 @@ public class User {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public User(String email, String password, String firstName, String lastName, Role role) {
+    public User(String email, String password, String firstName, String lastName, Role role, Provider provider, String providerId) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
+        this.provider = provider;
+        this.providerId = providerId;
     }
 }
