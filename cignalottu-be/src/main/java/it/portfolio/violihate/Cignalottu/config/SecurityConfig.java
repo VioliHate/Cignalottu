@@ -1,9 +1,10 @@
 package it.portfolio.violihate.cignalottu.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.portfolio.violihate.cignalottu.dto.response.AuthResponse;
 import it.portfolio.violihate.cignalottu.security.filter.JwtAuthenticationFilter;
-import it.portfolio.violihate.cignalottu.service.AuthService;
+import it.portfolio.violihate.cignalottu.security.handler.LogoutSuccessHandlerImpl;
+import it.portfolio.violihate.cignalottu.security.handler.OAuth2FailureHandler;
+import it.portfolio.violihate.cignalottu.security.handler.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,19 +14,16 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.security.oauth2.core.user.OAuth2User;
+
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,8 +35,10 @@ public class SecurityConfig {
 
     private final Environment environment;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final AuthService authService;
-    private final ObjectMapper objectMapper;
+    private final OAuth2FailureHandler oAuth2FailureHandler;
+    private final LogoutSuccessHandlerImpl logoutSuccessHandler;
+
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -51,7 +51,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, OAuth2SuccessHandler oAuth2SuccessHandler) throws Exception {
         boolean isDev = Arrays.asList(environment.getActiveProfiles()).contains("dev");
 
         http
@@ -61,15 +61,13 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
 
-        http.headers(headers -> headers
-                .frameOptions(frame -> {
-                    if (isDev) {
-                        frame.disable();
-                    } else {
-                        frame.sameOrigin();
-                    }
-                })
-        );
+        http.headers(headers -> {
+            if (isDev) {
+                headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable);
+            } else {
+                headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin);
+            }
+        });
 
         // Autorizzazioni
         http.authorizeHttpRequests(auth -> {
@@ -90,15 +88,15 @@ public class SecurityConfig {
 
         // OAuth2 Login (Google)
         http.oauth2Login(oauth2 -> oauth2
-                .successHandler(oAuth2AuthenticationSuccessHandler())
-                .failureHandler(oAuth2AuthenticationFailureHandler())
+                .successHandler(oAuth2SuccessHandler)
+                .failureHandler(oAuth2FailureHandler)
                 .permitAll()
         );
 
         // Logout
         http.logout(logout -> logout
                 .logoutUrl("/logout")
-                .logoutSuccessHandler(logoutSuccessHandler())
+                .logoutSuccessHandler(logoutSuccessHandler)
                 .permitAll()
         );
 
@@ -108,50 +106,6 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable);
 
         return http.build();
-    }
-
-
-    @Bean
-    public AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
-        return (request, response, authentication) -> {
-            OAuth2User oauthUser = (OAuth2User) authentication.getPrincipal();
-
-            String email = oauthUser.getAttribute("email");
-            String name = oauthUser.getAttribute("name");
-            String googleId = oauthUser.getAttribute("sub");
-
-            if (email == null) {
-                response.setStatus(400);
-                response.setContentType("application/json");
-                response.getWriter().write("{\"error\": \"Email non fornita da Google\"}");
-                return;
-            }
-
-            AuthResponse authResponse = authService.processOAuth2User(email, name, googleId);
-
-            response.setContentType("application/json");
-            response.getWriter().write(objectMapper.writeValueAsString(authResponse));
-        };
-    }
-
-
-    @Bean
-    public AuthenticationFailureHandler oAuth2AuthenticationFailureHandler() {
-        return (request, response, exception) -> {
-            response.setStatus(401);
-            response.setContentType("application/json");
-            response.getWriter().write("{\"error\": \"Login Google fallito: " + exception.getMessage() + "\"}");
-        };
-    }
-
-    @Bean
-    public LogoutSuccessHandler logoutSuccessHandler() {
-        return (request, response, authentication) -> {
-            SecurityContextHolder.clearContext();
-            response.setStatus(200);
-            response.setContentType("application/json");
-            response.getWriter().write("{\"message\": \"Logout effettuato\"}");
-        };
     }
 
     @Bean

@@ -1,6 +1,7 @@
 package it.portfolio.violihate.cignalottu.config;
 
 
+import it.portfolio.violihate.cignalottu.entity.Provider;
 import it.portfolio.violihate.cignalottu.entity.Role;
 import it.portfolio.violihate.cignalottu.entity.User;
 import it.portfolio.violihate.cignalottu.repository.UserRepository;
@@ -16,13 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class DataInitializer {
 
     private static final Logger log = LoggerFactory.getLogger(DataInitializer.class);
-
-    private final PasswordEncoder passwordEncoder;
-
-    public DataInitializer(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
-
 
     @Bean
     @Profile("dev")  // da eseguire solo in configurazione dev
@@ -61,7 +55,8 @@ public class DataInitializer {
             );
 
             createUserIfNotExists(
-                    userRepository, passwordEncoder,
+                    userRepository,
+                    passwordEncoder,
                     "rappresentante@test.it",
                     "rapp123",
                     "Giulia",
@@ -86,10 +81,7 @@ public class DataInitializer {
             log.info("Utente {} già presente, salto creazione.", email);
             return;
         }
-
-        User user = new User(email, passwordEncoder.encode(rawPassword), firstName, lastName, role);
-
+        User user = new User(email, encoder.encode(rawPassword), firstName, lastName, role, Provider.LOCAL, null);
         repo.save(user);
-        log.info("Creato utente: {} ({})", email, role);
     }
 }
