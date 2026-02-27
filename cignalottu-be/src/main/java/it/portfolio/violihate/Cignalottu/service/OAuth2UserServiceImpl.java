@@ -10,10 +10,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 @Slf4j
@@ -29,21 +31,25 @@ public class OAuth2UserServiceImpl implements OAuth2UserProcessor{
 
     @Override
     @Transactional
-    public AuthResponse processOAuth2User(String email, String name, String googleId) {
-        String normalizedEmail = email.trim().toLowerCase();
-
+    public AuthResponse processOAuth2User(OAuth2User oauthUser) {
+        String normalizedEmail = Objects.requireNonNull(oauthUser.getAttribute("email")).toString().trim().toLowerCase();
+        String googleId = oauthUser.getAttribute("sub");
         if (!EMAIL_PATTERN.matcher(normalizedEmail).matches()) {
             throw new IllegalArgumentException("Email non valida da Google");
         }
+
+        String firstName = capitalize(oauthUser.getAttribute("given_name"));
+        String lastName = capitalize(oauthUser.getAttribute("family_name"));
+
 
         User user = userRepository.findByEmail(normalizedEmail)
                 .orElseGet(() -> {
                     User newUser = new User();
                     newUser.setEmail(normalizedEmail);
                     newUser.setPassword(null);
-                    newUser.setFirstName(name != null && !name.trim().isEmpty() ? name.trim() : "Utente Google");
-                    newUser.setLastName("");
-                    newUser.setRole(Role.CUSTOMER);
+                    newUser.setFirstName(firstName);
+                    newUser.setLastName(lastName);
+                    newUser.setRole(Role.CUSTOMER); // da vedere il ruolo
                     newUser.setProvider(Provider.GOOGLE);
                     newUser.setProviderId(googleId);
                     newUser.setCreatedAt(LocalDateTime.now());
@@ -78,5 +84,11 @@ public class OAuth2UserServiceImpl implements OAuth2UserProcessor{
                 user.getId(),
                 user.getEmail(),
                 user.getRole().name());
+    }
+
+    //utility
+    private String capitalize(String str) {
+        if (str == null || str.isEmpty()) return str;
+        return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
     }
 }

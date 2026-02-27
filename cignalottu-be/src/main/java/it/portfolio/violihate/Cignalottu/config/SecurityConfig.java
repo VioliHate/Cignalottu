@@ -1,6 +1,7 @@
 package it.portfolio.violihate.cignalottu.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.portfolio.violihate.cignalottu.security.CookieOAuth2AuthorizationRequestRepository;
 import it.portfolio.violihate.cignalottu.security.filter.JwtAuthenticationFilter;
 import it.portfolio.violihate.cignalottu.security.handler.LogoutSuccessHandlerImpl;
 import it.portfolio.violihate.cignalottu.security.handler.OAuth2FailureHandler;
@@ -58,7 +59,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).sessionFixation().migrateSession()  // migra sessione su auth per prevenire fixation attacks
+                        .invalidSessionUrl("/login")
                 );
 
         http.headers(headers -> {
@@ -90,6 +92,9 @@ public class SecurityConfig {
         http.oauth2Login(oauth2 -> oauth2
                 .successHandler(oAuth2SuccessHandler)
                 .failureHandler(oAuth2FailureHandler)
+                .authorizationEndpoint(auth -> auth
+                        .authorizationRequestRepository(new CookieOAuth2AuthorizationRequestRepository())
+                )
                 .permitAll()
         );
 
@@ -108,13 +113,13 @@ public class SecurityConfig {
         return http.build();
     }
 
+
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:3000",      // React/Vite/Angular
-                "http://127.0.0.1:3000",
-                "*"                           // test
+                "http://127.0.0.1:3000"// test
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"));
         configuration.setAllowedHeaders(List.of("*"));

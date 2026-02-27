@@ -25,11 +25,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         OAuth2User oauthUser = (OAuth2User) authentication.getPrincipal();
 
-        AuthResponse authResponse = oAuth2UserProcessor.processOAuth2User(
-                oauthUser.getAttribute("email"),
-                oauthUser.getAttribute("name"),
-                oauthUser.getAttribute("sub")
-        );
+        AuthResponse authResponse = oAuth2UserProcessor.processOAuth2User(oauthUser);
 
         response.setContentType("application/json");
         response.getWriter().write(objectMapper.writeValueAsString(authResponse));
