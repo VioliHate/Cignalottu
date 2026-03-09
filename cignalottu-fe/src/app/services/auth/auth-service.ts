@@ -15,7 +15,7 @@ export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
 
-  private readonly apiUrl = `${environment.apiUrl}/api/auth`;
+  private readonly apiUrl = `${environment.url}/api/auth`;
 
   // state signals
   private _user    = signal<AuthResponse['user'] | null>(null);
