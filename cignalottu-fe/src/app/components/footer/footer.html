@@ -1,15 +1,22 @@
-<footer class="bg-gray-900 text-gray-400 py-6 text-center md:text-left">
+<footer class="bg-barber-cream text-barber-dark pt-12 pb-10 border-t border-barber-dark/20">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <p class="text-sm">
-      © 2026 Cignalottu • Tutti i cignali su riserbati
-    </p>
+    <div class="flex flex-col items-center text-center space-y-4 text-sm">
 
-    <nav class="mt-4 flex flex-wrap justify-center md:justify-start items-center gap-x-4 text-sm">
-      <a routerLink="/privacy"   class="hover:text-white transition-colors">Privacy</a>
-      <span class="text-gray-700">|</span>
-      <a routerLink="/termini"    class="hover:text-white transition-colors">Termini</a>
-      <span class="text-gray-700">|</span>
-      <a routerLink="/contatti"   class="hover:text-white transition-colors">Contatti</a>
-    </nav>
+      <p class="opacity-80">
+        © 2026 Cignalottu • Tutti i cignali su riserbati
+      </p>
+
+      <div class="flex gap-x-6 gap-y-2 flex-wrap justify-center">
+        <a routerLink="/privacy" class="hover:text-barber-red transition-colors">
+          Privacy
+        </a>
+        <a routerLink="/termini" class="hover:text-barber-red transition-colors">
+          Termini
+        </a>
+        <a routerLink="/contatti" class="hover:text-barber-red transition-colors">
+          Contatti
+        </a>
+      </div>
+    </div>
   </div>
 </footer>
