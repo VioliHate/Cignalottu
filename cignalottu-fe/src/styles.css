@@ -1,3 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import "tailwindcss";
+
+@theme {
+  --color-barber-cream: #F7F6E5;
+  --color-barber-blue: #76D2DB;
+  --color-barber-red: #DA4848;
+  --color-barber-dark: #36064D;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", serif;
+}
+
+@layer base {
+  body {
+    @apply bg-barber-cream text-barber-dark font-sans antialiased;
+  }
+}
+
+.barber-grid {
+  background-image: radial-gradient(var(--color-barber-dark) 0.5px, transparent 0.5px);
+  background-size: 24px 24px;
+  opacity: 0.05;
+}

@@ -1,9 +1,15 @@
-<footer class="site-footer">
-  <p>© 2026 Cignalottu • Tutti i cignali su riserbati</p>
+<footer class="bg-gray-900 text-gray-400 py-6 text-center md:text-left">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <p class="text-sm">
+      © 2026 Cignalottu • Tutti i cignali su riserbati
+    </p>
 
-  <nav>
-    <a routerLink="/privacy">Privacy</a>
-    <a routerLink="/termini">Termini</a>
-    <a routerLink="/contatti">Contatti</a>
-  </nav>
+    <nav class="mt-4 flex flex-wrap justify-center md:justify-start items-center gap-x-4 text-sm">
+      <a routerLink="/privacy"   class="hover:text-white transition-colors">Privacy</a>
+      <span class="text-gray-700">|</span>
+      <a routerLink="/termini"    class="hover:text-white transition-colors">Termini</a>
+      <span class="text-gray-700">|</span>
+      <a routerLink="/contatti"   class="hover:text-white transition-colors">Contatti</a>
+    </nav>
+  </div>
 </footer>
