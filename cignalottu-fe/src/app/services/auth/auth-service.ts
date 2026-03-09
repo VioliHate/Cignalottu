@@ -1,11 +1,10 @@
-import {computed, Injectable, signal} from '@angular/core';
-import {inject} from 'vitest';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {Router} from '@angular/router';
+import {computed, inject, Injectable, signal} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {AuthResponse} from '../../models/auth/auth-response';
 import {LoginRequest} from '../../models/auth/login-request';
 import {catchError, Observable, tap, throwError} from 'rxjs';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {Router} from '@angular/router';
 import {RegisterRequest} from '../../models/auth/register-request';
 
 @Injectable({
@@ -95,7 +94,7 @@ export class AuthService {
     localStorage.removeItem('user');
   }
 
-  #handleError(err: HttpErrorResponse): Observable<never> {
+  #handleError(err: HttpErrorResponse)  {
     let msg = 'Errore sconosciuto';
 
     if (err.status === 0)               msg = 'Impossibile contattare il server';
