@@ -1,5 +1,5 @@
-import {RoleType} from './RoleType';
-import {ProviderType} from './ProviderType';
+import {RoleType} from './role-type';
+import {ProviderType} from './provider-type';
 
 export interface User{
   id: number;
