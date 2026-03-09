@@ -22,3 +22,7 @@
   background-size: 24px 24px;
   opacity: 0.05;
 }
+
+button{
+  cursor:pointer;
+}
