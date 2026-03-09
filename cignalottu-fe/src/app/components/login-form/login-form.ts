@@ -1,16 +1,17 @@
 import {Component, input, output, signal} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ArrowRight, Lock, LucideAngularModule, Mail, Scissors, ShoppingBag, User} from "lucide-angular";
-import {NgIf} from "@angular/common";
+import {NgClass, NgIf} from "@angular/common";
 import {email} from '@angular/forms/signals';
 
 @Component({
   selector: 'login-form',
-    imports: [
-        FormsModule,
-        LucideAngularModule,
-        ReactiveFormsModule
-    ],
+  imports: [
+    FormsModule,
+    LucideAngularModule,
+    ReactiveFormsModule,
+    NgClass
+  ],
   templateUrl: './login-form.html',
   styleUrl: './login-form.css',
 })

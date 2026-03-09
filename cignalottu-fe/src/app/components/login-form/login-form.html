@@ -5,22 +5,16 @@
       type="button"
       (click)="toggleLogin(true)"
       class="flex-1 py-4 text-sm font-medium"
-      [class.text-black]="isLogin()"
-      [class.text-gray-400]="!isLogin()"
-      [class.border-b-2]="isLogin()"
-      [class.border-red-600]="isLogin()"
-    >Accedi
+      [ngClass]="{'text-black border-b border-barber-blue': isLogin(),
+    'text-gray-400': !isLogin()}">Accedi
     </button>
 
     <button
       type="button"
       (click)="toggleLogin(false)"
       class="flex-1 py-4 text-sm font-medium"
-      [class.text-black]="!isLogin()"
-      [class.text-gray-400]="isLogin()"
-      [class.border-b-2]="!isLogin()"
-      [class.border-red-600]="!isLogin()"
-    >Registrati
+      [ngClass]="{'text-black border-b border-barber-blue': !isLogin(),
+    'text-gray-400': isLogin()}">Registrati
     </button>
   </div>
 
