@@ -1,10 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-  --color-barber-cream: #F7F6E5;
-  --color-barber-blue: #76D2DB;
+  --color-barber-cream: #F5F5F0;
+  --color-barber-primary: #3A4031;
+  --color-barber-accent: #8B5E3C;
+  --color-barber-text: #2C2C2C;
+  --color-barber-muted: #6B705C;
+  --color-barber-border: #D1D1C7;
   --color-barber-red: #DA4848;
-  --color-barber-dark: #36064D;
 
 
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
@@ -13,16 +16,16 @@
 
 @layer base {
   body {
-    @apply bg-barber-cream text-barber-dark font-sans antialiased;
+    @apply bg-barber-cream text-barber-text font-sans antialiased;
   }
 }
 
 .barber-grid {
-  background-image: radial-gradient(var(--color-barber-dark) 0.5px, transparent 0.5px);
+  background-image: radial-gradient(whitesmoke 0.5px, transparent 0.5px);
   background-size: 24px 24px;
   opacity: 0.05;
 }
 
-button{
-  cursor:pointer;
+button {
+  cursor: pointer;
 }

@@ -1,10 +1,20 @@
-<header class="bg-barber-dark text-barber-cream sticky top-0 z-50">
+<header class="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-md border-b-barber-border">
   <div class="max-w-7xl mx-auto px-4">
-    <div class="flex items-center justify-between h-14">
+    <div class="flex items-center justify-between h-20">
 
       <!-- Logo -->
-      <a routerLink="/" class="text-2xl font-bold tracking-tight">
-        Cignalottu
+      <a routerLink="/" class="text-2xl font-bold tracking-tight flex items-center gap-3 hover:opacity-90 transition-opacity">
+        <div class="w-17 h-17 shrink-0 overflow-hidden rounded-full border-2 border-barber-border shadow-sm">
+          <img
+            ngSrc="/icon.jpg"
+            alt="Cignalottu"
+            width="784"
+            height="1168"
+            class="w-full h-full object-cover"
+            priority
+          />
+        </div>
+        <span>Cignalottu</span>
       </a>
 
       <!-- Nav desktop -->

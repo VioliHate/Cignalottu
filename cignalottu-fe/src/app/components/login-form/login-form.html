@@ -5,7 +5,7 @@
       type="button"
       (click)="toggleLogin(true)"
       class="flex-1 py-4 text-sm font-medium"
-      [ngClass]="{'text-black border-b border-barber-blue': isLogin(),
+      [ngClass]="{'text-barber-text border-b border-barber-red': isLogin(),
     'text-gray-400': !isLogin()}">Accedi
     </button>
 
@@ -13,7 +13,7 @@
       type="button"
       (click)="toggleLogin(false)"
       class="flex-1 py-4 text-sm font-medium"
-      [ngClass]="{'text-black border-b border-barber-blue': !isLogin(),
+      [ngClass]="{'text-barber-text border-b border-barber-red': !isLogin(),
     'text-gray-400': isLogin()}">Registrati
     </button>
   </div>
@@ -98,7 +98,7 @@
     <!-- Bottone submit -->
     <button
       type="submit"
-      class="w-full bg-barber-dark text-white py-3.5 rounded-xl font-medium text-sm tracking-wide hover:bg-barber-dark/80 transition-colors flex items-center justify-center gap-2"
+      class="w-full bg-barber-primary text-white py-3.5 rounded-xl font-medium text-sm tracking-wide hover:bg-barber-primary/80 transition-colors flex items-center justify-center gap-2"
     >
       {{ isLogin() ? 'Accedi' : 'Crea account' }}
       <lucide-icon [name]="arrowRightIcon" class="w-4 h-4"></lucide-icon>
@@ -107,10 +107,10 @@
   <!-- Sezione google login -->
   @if (isLogin()) {
     <div class="flex flex-col items-center gap-4 -translate-y-1/6">
-      <p class="text-[10px] uppercase font-bold tracking-widest text-barber-dark/30">Oppure continua con</p>
+      <p class="text-[10px] uppercase font-bold tracking-widest bg-barber-primary/30">Oppure continua con</p>
       <div class="flex gap-4 w-1/4">
         <button
-          class="flex-1 border border-barber-dark/10 rounded-2xl py-3.5 flex items-center justify-center transition-all group">
+          class="flex-1 border bg-barber-primary/10 rounded-2xl py-3.5 flex items-center justify-center transition-all group">
           <img src="https://www.google.com/favicon.ico" alt="Google"
                class="w-4 h-4 grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all"
                referrerPolicy="no-referrer"/>
