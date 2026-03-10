@@ -67,14 +67,15 @@
 
   <!-- Mobile menu -->
   @if (mobileMenuOpen) {
-    <div class="md:hidden bg-barber-dark border-t border-barber-dark/30">
+    <div class="md:hidden bg-white/80 border-t border-barber-dark/30">
       <div class="px-4 py-5 space-y-4 text-sm">
-        <a routerLink="/cat1" class="block hover:text-barber-red">Cat1</a>
-        <a routerLink="/cat2" class="block hover:text-barber-red">Cat2</a>
-        <a routerLink="/cat3" class="block hover:text-barber-red">Cat3</a>
-        <a routerLink="/offerte" class="block text-barber-red">Offerte</a>
-        <a routerLink="/account" class="block">Account</a>
-        <a routerLink="/carrello" class="block">
+        @for (category of categories; track category) {
+          <a routerLink="/cat1" class="block text-sm font-medium">
+            {{ category }}
+          </a>
+        }
+        <a routerLink="/login" class="block font-bold text-barber-accent">Account</a>
+        <a routerLink="/carrello" class="block font-bold text-barber-accent">
           Carrello @if (cartCount > 0) {
           ({{ cartCount }})
         }
