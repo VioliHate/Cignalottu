@@ -3,7 +3,7 @@
     <div class="flex items-center justify-between h-20">
 
       <!-- Logo -->
-      <a routerLink="/" class="text-2xl font-bold tracking-tight flex items-center gap-3 hover:opacity-90 transition-opacity">
+      <a routerLink="/" class="text-2xl font-bold tracking-tight flex items-center gap-3 hover:opacity-80 transition-opacity">
         <div class="w-17 h-17 shrink-0 overflow-hidden rounded-full border-2 border-barber-border shadow-sm">
           <img
             ngSrc="/icon.jpg"
@@ -18,19 +18,12 @@
       </a>
 
       <!-- Nav desktop -->
-      <nav class="hidden md:flex items-center gap-x-8 text-sm font-medium">
-        <a routerLink="/cat1" class="hover:text-barber-red">
-          Cat1
+      <nav class="hidden gap-10 md:flex">
+        @for (category of categories; track category){
+        <a routerLink="/cat1" class="text-sm font-medium transition-colors hover:text-barber-muted">
+          {{category}}
         </a>
-        <a routerLink="/cat2" class="hover:text-barber-red">
-          Cat2
-        </a>
-        <a routerLink="/cat3" class="hover:text-barber-red">
-          Cat3
-        </a>
-        <a routerLink="/offerte" class="text-barber-red">
-          Offerte
-        </a>
+        }
       </nav>
 
       <!-- Right side icons -->

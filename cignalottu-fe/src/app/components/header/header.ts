@@ -13,7 +13,8 @@ import {NgOptimizedImage} from '@angular/common';
 })
 export class Header {
   mobileMenuOpen = false;
-  cartCount = 3;
+  cartCount = 0;
+  categories =["Prodotti","Shop", "Per il Professionista", "Contatti", "Offerte"];
 
   toggleMobileMenu() {
     this.mobileMenuOpen = !this.mobileMenuOpen;
