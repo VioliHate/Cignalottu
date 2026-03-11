@@ -1,8 +1,9 @@
-import {Component, Optional} from '@angular/core';
+import {Component, inject, Optional} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ComponentPortal, PortalModule} from '@angular/cdk/portal';
-import {DialogConfig} from '../../utils/dialog-config';
-import {DialogRef} from '../../utils/dialog-ref';
+import {DialogConfig} from '../../utils/dialog/dialog-config';
+import {DialogRef} from '../../utils/dialog/dialog-ref';
+import {DIALOG_DATA} from '../../utils/dialog/dialog-tokens';
 
 @Component({
   selector: 'app-app-dialog',
@@ -13,10 +14,10 @@ import {DialogRef} from '../../utils/dialog-ref';
 export class AppDialog {
 
   portal: ComponentPortal<any>;
+  dialogRef = inject(DialogRef);
+  data = inject(DIALOG_DATA);
 
-  constructor(
-    @Optional() public config: DialogConfig,
-    private dialogRef: DialogRef
+  constructor(public config: DialogConfig
   ) {
     if (!config?.component) {
       throw new Error('Devi passare un componente da mostrare!');

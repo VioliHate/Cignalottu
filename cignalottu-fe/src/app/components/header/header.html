@@ -30,7 +30,7 @@
 
       <!-- Right side icons -->
       <div class="flex items-center gap-x-5">
-        <a routerLink="/login" class="hidden sm:block">
+        <a (click)="openUserDialog()" class="hidden sm:block">
           <lucide-icon
             [name]="UserIcon"
             class="h-5 w-5 cursor-pointer hover:text-barber-accent"></lucide-icon>
