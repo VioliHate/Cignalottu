@@ -1,7 +1,7 @@
 import {Component, input, output, signal} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ArrowRight, Eye, EyeOff, Lock, LucideAngularModule, Mail, Scissors, ShoppingBag, User} from "lucide-angular";
-import {NgClass, NgIf} from "@angular/common";
+import {NgClass, NgIf, NgOptimizedImage} from "@angular/common";
 import {email} from '@angular/forms/signals';
 
 @Component({
@@ -10,7 +10,8 @@ import {email} from '@angular/forms/signals';
     FormsModule,
     LucideAngularModule,
     ReactiveFormsModule,
-    NgClass
+    NgClass,
+    NgOptimizedImage
   ],
   templateUrl: './login-form.html',
   styleUrl: './login-form.css',
@@ -36,6 +37,7 @@ export class LoginForm {
   showPassword = signal(false);
 
   toggleLogin(value: boolean) {
+    console.log(value)
     this.isLoginChange.emit(value);
   }
 
@@ -44,6 +46,7 @@ export class LoginForm {
   }
 
   onSubmit() {
+    console.log(this.email);
     this.submit.emit({
       email: this.email(),
       password: this.password(),
