@@ -30,7 +30,7 @@ export class DialogService {
     const containerPortal = new ComponentPortal(
       AppDialog,
       null,
-      this.createInjector(config.data, dialogRef)
+      this.createInjector(config, dialogRef)
     );
 
     const containerRef = overlayRef.attach(containerPortal);
@@ -38,7 +38,7 @@ export class DialogService {
     containerRef.instance.portal = new ComponentPortal(
       config.component,
       null,
-      this.createInjector(config.data, dialogRef)
+      this.createInjector(config, dialogRef)
     );
 
     if (!config.disableClose) {
