@@ -1,21 +1,25 @@
 <section
-  class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+  class="fixed inset-0 flex items-center justify-center bg-black/50 z-50 min-h-screen">
 
-    <div open class="relative w-full max-w-lg rounded-xl bg-white shadow-xl p-6">
-      <button
-        (click)="close()"
+  <div open class="relative w-full max-w-lg rounded-xl bg-white shadow-xl p-6 overflow-auto max-h-[90vh]">
+    <button
+      (click)="close()"
       class="absolute right-4 top-4 rounded-full p-2 transition-colors hover:bg-neutral-100"
-      >
-        <lucide-icon [name]="xIcon" class="w-4 h-4 text-gray-500"></lucide-icon>
-      </button>
-      @if (config.title) {
-        <header class="mb-4">
-          <h2 class="text-lg font-semibold">{{ config.title }}</h2>
+    >
+      <lucide-icon [name]="xIcon" class="w-4 h-4 text-gray-500"></lucide-icon>
+    </button>
+    @if (config.title) {
+      <div class="mb-8">
+        <header class="mb-1">
+          <h2 class="text-2xl font-bold text-barber-text">{{ config.title }}</h2>
         </header>
-      }
-
-      <main class="mb-6">
-        <ng-container *cdkPortalOutlet="portal"></ng-container>
-      </main>
-    </div>
-  </section>
+        @if (config.subTitle) {
+          <p class="text-sm text-barber-text/75">{{ config.subTitle }}</p>
+        }
+      </div>
+    }
+    <main class="mb-6 flex justify-center">
+      <ng-container *cdkPortalOutlet="portal"></ng-container>
+    </main>
+  </div>
+</section>

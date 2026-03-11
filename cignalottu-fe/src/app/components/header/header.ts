@@ -33,10 +33,8 @@ export class Header {
   protected openUserDialog() {
     this.dialog.open({
       component: LoginForm,
-      title: 'Dettagli utente',
-      data: {
-        name: 'Mario'
-      }
+      title: 'Bentornato',
+      subTitle: 'Inserisci le tue credenziali per accedere',
     });
   }
 }
