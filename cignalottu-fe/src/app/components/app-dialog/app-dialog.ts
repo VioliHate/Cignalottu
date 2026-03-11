@@ -1,4 +1,4 @@
-import {Component, inject, Optional} from '@angular/core';
+import {Component, Inject, inject, Optional} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ComponentPortal, PortalModule} from '@angular/cdk/portal';
 import {DialogConfig} from '../../utils/dialog/dialog-config';
@@ -15,9 +15,8 @@ export class AppDialog {
 
   portal: ComponentPortal<any>;
   dialogRef = inject(DialogRef);
-  data = inject(DIALOG_DATA);
 
-  constructor(public config: DialogConfig
+  constructor(@Optional() @Inject(DIALOG_DATA) public config: DialogConfig
   ) {
     if (!config?.component) {
       throw new Error('Devi passare un componente da mostrare!');
