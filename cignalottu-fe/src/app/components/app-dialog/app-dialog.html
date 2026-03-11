@@ -1,8 +1,13 @@
 <section
   class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
 
-    <dialog open class="w-full max-w-lg rounded-xl bg-white shadow-xl p-6">
-
+    <div open class="w-full max-w-lg rounded-xl bg-white shadow-xl p-6">
+      <button
+        (click)="close()"
+      class="right-6 top-6 rounded-full p-2 transition-colors hover:bg-neutral-100"
+      >
+        <lucide-icon [name]="xIcon" class="w-4 h-4 text-gray-500"></lucide-icon>
+      </button>
       @if (config.title) {
         <header class="mb-4">
           <h2 class="text-lg font-semibold">{{ config.title }}</h2>
@@ -12,14 +17,5 @@
       <main class="mb-6">
         <ng-container *cdkPortalOutlet="portal"></ng-container>
       </main>
-
-      <footer class="flex justify-end gap-2">
-        <button
-          class="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
-          (click)="close()">
-          Chiudi
-        </button>
-      </footer>
-
-    </dialog>
+    </div>
   </section>
