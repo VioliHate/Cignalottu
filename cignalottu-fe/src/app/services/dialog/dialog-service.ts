@@ -18,8 +18,8 @@ export class DialogService {
 
     const overlayRef = this.overlay.create({
       hasBackdrop: true,
-      positionStrategy: this.overlay
-        .position()
+      backdropClass: 'bg-black/50',
+      positionStrategy: this.overlay.position()
         .global()
         .centerHorizontally()
         .centerVertically()

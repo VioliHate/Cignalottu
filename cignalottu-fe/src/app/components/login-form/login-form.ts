@@ -1,6 +1,6 @@
 import {Component, input, output, signal} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {ArrowRight, Lock, LucideAngularModule, Mail, Scissors, ShoppingBag, User} from "lucide-angular";
+import {ArrowRight, Eye, EyeOff, Lock, LucideAngularModule, Mail, Scissors, ShoppingBag, User} from "lucide-angular";
 import {NgClass, NgIf} from "@angular/common";
 import {email} from '@angular/forms/signals';
 
@@ -21,6 +21,8 @@ export class LoginForm {
   protected readonly mailIcon = Mail;
   protected readonly lockIcon = Lock;
   protected readonly arrowRightIcon = ArrowRight;
+  protected readonly eyeIcon = Eye;
+  protected readonly eyeOffIcon = EyeOff;
 
   isLogin = input<boolean>(true);
   email = input<string>('');

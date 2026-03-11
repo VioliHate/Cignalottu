@@ -6,7 +6,7 @@ import {DialogRef} from '../../utils/dialog/dialog-ref';
 import {DIALOG_DATA} from '../../utils/dialog/dialog-tokens';
 
 @Component({
-  selector: 'app-app-dialog',
+  selector: 'app-dialog',
     imports: [CommonModule, PortalModule],
   templateUrl: './app-dialog.html',
   styleUrl: './app-dialog.css',
