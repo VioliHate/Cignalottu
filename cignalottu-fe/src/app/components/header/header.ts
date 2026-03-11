@@ -33,7 +33,7 @@ export class Header {
   protected openUserDialog() {
     this.dialog.open({
       component: LoginForm,
-      title: 'Bentornato',
+      title: 'Accedi o Registrati',
       subTitle: 'Inserisci le tue credenziali per accedere',
     });
   }
