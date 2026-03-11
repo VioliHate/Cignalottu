@@ -18,8 +18,7 @@ export class AppDialog {
 
   constructor(@Optional() @Inject(DIALOG_DATA) public config: DialogConfig
   ) {
-    console.log(config);
-    if (!config?.component) {
+   if (!config?.component) {
       throw new Error('Devi passare un componente da mostrare!');
     }
 

@@ -26,28 +26,22 @@ export class DialogService {
     });
 
     const dialogRef = new DialogRef(overlayRef);
-
     const containerPortal = new ComponentPortal(
       AppDialog,
       null,
       this.createInjector(config, dialogRef)
     );
-
     const containerRef = overlayRef.attach(containerPortal);
-
     containerRef.instance.portal = new ComponentPortal(
       config.component,
       null,
       this.createInjector(config, dialogRef)
     );
-
     if (!config.disableClose) {
       overlayRef.backdropClick().subscribe(() => dialogRef.close());
     }
-
     return dialogRef;
   }
-
   private createInjector(data: unknown, dialogRef: DialogRef) {
     return Injector.create({
       providers: [
