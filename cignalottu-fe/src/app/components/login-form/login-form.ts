@@ -37,7 +37,6 @@ export class LoginForm {
   showPassword = signal(false);
 
   toggleLogin(value: boolean) {
-    console.log(value)
     this.isLoginChange.emit(value);
   }
 
@@ -58,5 +57,9 @@ export class LoginForm {
     console.log('Avvio login con Google');
 
     // this.authService.googleSignIn();
+  }
+
+  protected switchIsLogin() {
+    this.isLoginChange.emit(!this.isLogin().valueOf());
   }
 }

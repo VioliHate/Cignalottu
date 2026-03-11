@@ -123,13 +123,22 @@
           <button
             (click)="loginWithGoogle()"
             class="flex-1 border bg-barber-primary/10 rounded-2xl py-3.5 flex items-center justify-center transition-all group">
-            <img src="https://www.google.com/favicon.ico" alt="Google"
-                 class="w-4 h-4 grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all"
-                 referrerPolicy="no-referrer"/>
+            <img ngSrc="https://www.google.com/favicon.ico" width="64" height="64" alt="Google"
+                 class="w-6 h-6 grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all"
+                  />
           </button>
         </div>
       </div>
     }
+
+    <p class="mt-8 text-center text-sm text-neutral-500">
+      @if(isLogin()) {Non hai un account?} @else{"Hai già un account?"}
+      <button
+        (click)="switchIsLogin()"
+      className="font-bold text-barber-accent hover:underline">
+        @if(isLogin()) {Registrati} @else{"Accedi"}
+      </button>
+    </p>
   </div>
 </div>
 
