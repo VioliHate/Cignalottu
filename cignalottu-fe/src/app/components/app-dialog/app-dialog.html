@@ -1,7 +1,8 @@
-<section
-  class="fixed inset-0 flex items-center justify-center bg-black/50 z-50 min-h-screen">
-
-  <div open class="relative w-full max-w-3xl rounded-xl bg-white shadow-xl p-6 overflow-auto max-h-[90vh]">
+<section class="fixed inset-0 flex items-center justify-center bg-black/50 z-50 min-h-screen">
+  <div
+    open
+    class="relative w-full max-w-3xl rounded-xl bg-white shadow-xl p-6 overflow-auto max-h-[90vh]"
+  >
     <button
       (click)="close()"
       class="absolute right-4 top-4 rounded-full p-2 transition-colors hover:bg-neutral-100"
@@ -19,7 +20,7 @@
       </div>
     }
     <main class="mb-6 flex justify-center">
-      <ng-container *cdkPortalOutlet="portal"></ng-container>
+      <ng-container *cdkPortalOutlet="portal" (attached)="onAttached($event)"></ng-container>
     </main>
   </div>
 </section>

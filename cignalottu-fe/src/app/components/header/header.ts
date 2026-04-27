@@ -1,25 +1,20 @@
-import {Component, inject} from '@angular/core';
-import {RouterLink} from '@angular/router';
-import {NgOptimizedImage} from '@angular/common';
-import {LucideAngularModule, ShoppingBag, UserIcon} from 'lucide-angular';
-import {LoginForm} from '../login-form/login-form';
-import {DialogService} from '../../services/dialog/dialog-service';
+import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { NgOptimizedImage } from '@angular/common';
+import { LucideAngularModule, ShoppingBag, UserIcon } from 'lucide-angular';
+import { LoginForm } from '../login-form/login-form';
+import { DialogService } from '../../services/dialog/dialog-service';
 
 @Component({
   selector: 'app-header',
-  imports: [
-    RouterLink,
-    NgOptimizedImage,
-    LucideAngularModule
-  ],
+  imports: [RouterLink, NgOptimizedImage, LucideAngularModule],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
 export class Header {
-
   mobileMenuOpen = false;
   cartCount = 2;
-  categories =["Prodotti","Shop", "Per il Professionista", "Contatti", "Offerte"];
+  categories = ['Prodotti', 'Shop', 'Per il Professionista', 'Contatti', 'Offerte'];
 
   dialog = inject(DialogService);
 
@@ -31,10 +26,15 @@ export class Header {
   protected readonly UserIcon = UserIcon;
 
   protected openUserDialog() {
-    this.dialog.open({
+    const dialogRef = this.dialog.open({
       component: LoginForm,
       title: 'Accedi o Registrati',
       subTitle: 'Inserisci le tue credenziali per accedere',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('Dati ricevuti nel componente Header:', result);
+      }
     });
   }
 }

@@ -1,10 +1,10 @@
-import {Component, Inject, inject, Optional} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {ComponentPortal, PortalModule} from '@angular/cdk/portal';
-import {DialogConfig} from '../../utils/dialog/dialog-config';
-import {DialogRef} from '../../utils/dialog/dialog-ref';
-import {DIALOG_DATA} from '../../utils/dialog/dialog-tokens';
-import {LucideAngularModule, LucideIconData, Mail, User, XIcon} from 'lucide-angular';
+import { Component, ComponentRef, Inject, inject, Optional } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ComponentPortal, PortalModule } from '@angular/cdk/portal';
+import { DialogConfig } from '../../utils/dialog/dialog-config';
+import { DialogRef } from '../../utils/dialog/dialog-ref';
+import { DIALOG_DATA } from '../../utils/dialog/dialog-tokens';
+import { LucideAngularModule, LucideIconData, Mail, User, XIcon } from 'lucide-angular';
 
 @Component({
   selector: 'app-dialog',
@@ -13,13 +13,12 @@ import {LucideAngularModule, LucideIconData, Mail, User, XIcon} from 'lucide-ang
   styleUrl: './app-dialog.css',
 })
 export class AppDialog {
-  protected readonly  xIcon = XIcon ;
+  protected readonly xIcon = XIcon;
   portal: ComponentPortal<any>;
   dialogRef = inject(DialogRef);
 
-  constructor(@Optional() @Inject(DIALOG_DATA) public config: DialogConfig
-  ) {
-   if (!config?.component) {
+  constructor(@Optional() @Inject(DIALOG_DATA) public config: DialogConfig) {
+    if (!config?.component) {
       throw new Error('Devi passare un componente da mostrare!');
     }
 
@@ -28,6 +27,18 @@ export class AppDialog {
 
   close(result?: any) {
     this.dialogRef.close(result);
+  }
+
+  onAttached(ref: any) {
+    if (ref instanceof ComponentRef) {
+      const instance = ref.instance;
+      if (instance.formSubmit) {
+        instance.formSubmit.subscribe((data: any) => {
+          console.log('Evento ricevuto da AppDialog:', data);
+          this.close(data);
+        });
+      }
+    }
   }
 
   protected readonly mailIcon = Mail;

@@ -1,15 +1,7 @@
-import { Component, effect, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {
-  ArrowRight,
-  LucideAngularModule,
-  Mail,
-  Scissors,
-  ShoppingBag,
-  User,
-  Lock,
-} from 'lucide-angular';
+import { LucideAngularModule } from 'lucide-angular';
 import { LoginForm } from '../../components/login-form/login-form';
 
 @Component({
@@ -23,20 +15,10 @@ export class LoginPage {
   email = signal('');
   password = signal('');
 
-  onSubmit(data: { email: string; password: string; isLogin: boolean }) {
-    console.log('Form inviato:', {
-      tipo: data.isLogin ? 'Login' : 'Registrazione',
-      email: data.email,
-      password: data.password,
-    });
+  onSubmit(data: any) {
+    console.log('2. Dati ricevuti nel componente PADRE', data);
 
     this.email.set('');
     this.password.set('');
-  }
-
-  constructor() {
-    effect(() => {
-      console.log(this.isLogin);
-    });
   }
 }
