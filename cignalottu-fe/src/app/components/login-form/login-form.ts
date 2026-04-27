@@ -1,23 +1,15 @@
-import {Component, input, output, signal} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {ArrowRight, Eye, EyeOff, Lock, LucideAngularModule, Mail, Scissors, ShoppingBag, User} from "lucide-angular";
-import {NgClass, NgIf, NgOptimizedImage} from "@angular/common";
-import {email} from '@angular/forms/signals';
+import { Component, model, output, signal } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ArrowRight, Eye, EyeOff, Lock, LucideAngularModule, Mail, User } from 'lucide-angular';
+import { NgClass, NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'login-form',
-  imports: [
-    FormsModule,
-    LucideAngularModule,
-    ReactiveFormsModule,
-    NgClass,
-    NgOptimizedImage
-  ],
+  imports: [FormsModule, LucideAngularModule, ReactiveFormsModule, NgClass, NgOptimizedImage],
   templateUrl: './login-form.html',
   styleUrl: './login-form.css',
 })
 export class LoginForm {
-
   protected readonly userIcon = User;
   protected readonly mailIcon = Mail;
   protected readonly lockIcon = Lock;
@@ -25,23 +17,20 @@ export class LoginForm {
   protected readonly eyeIcon = Eye;
   protected readonly eyeOffIcon = EyeOff;
 
-  isLogin = input<boolean>(true);
-  email = input<string>('');
-  password = input<string>('');
+  isLogin = model<boolean>(true);
+  email = model<string>('');
+  password = model<string>('');
 
-  isLoginChange = output<boolean>();
-  emailChange = output<string>();
-  passwordChange = output<string>();
   submit = output<{ email: string; password: string; isLogin: boolean }>();
 
   showPassword = signal(false);
 
   toggleLogin(value: boolean) {
-    this.isLoginChange.emit(value);
+    this.isLogin.set(value);
   }
 
   toggleShowPassword() {
-    this.showPassword.update(v => !v);
+    this.showPassword.update((value) => !value);
   }
 
   onSubmit() {
@@ -60,6 +49,6 @@ export class LoginForm {
   }
 
   protected switchIsLogin() {
-    this.isLoginChange.emit(!this.isLogin().valueOf());
+    this.isLogin.update((value) => !value);
   }
 }

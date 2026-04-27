@@ -1,5 +1,7 @@
-<div class="relative grid w-full max-w-4xl overflow-hidden rounded-[2.5rem] bg-white shadow-2xl md:grid-cols-2">
-<!--Left-->
+<div
+  class="relative grid w-full max-w-4xl overflow-hidden rounded-[2.5rem] bg-white shadow-2xl md:grid-cols-2"
+>
+  <!--Left-->
   <div class="relative hidden md:block">
     <img
       ngSrc="/login.jpg"
@@ -16,28 +18,33 @@
         type="button"
         (click)="toggleLogin(true)"
         class="flex-1 py-4 text-sm font-medium"
-        [ngClass]="{'text-barber-text border-b border-barber-red': isLogin(),
-    'text-gray-400': !isLogin()}">Accedi
+        [ngClass]="{
+          'text-barber-text border-b border-barber-red': isLogin(),
+          'text-gray-400': !isLogin(),
+        }"
+      >
+        Accedi
       </button>
 
       <button
         type="button"
         (click)="toggleLogin(false)"
         class="flex-1 py-4 text-sm font-medium"
-        [ngClass]="{'text-barber-text border-b border-barber-red': !isLogin(),
-    'text-gray-400': isLogin()}">Registrati
+        [ngClass]="{
+          'text-barber-text border-b border-barber-red': !isLogin(),
+          'text-gray-400': isLogin(),
+        }"
+      >
+        Registrati
       </button>
     </div>
 
     <!-- Form -->
     <form (ngSubmit)="onSubmit()" class="p-8 space-y-6">
-
       @if (!isLogin()) {
         <div>
           <label class="flex items-center gap-2 mb-1.5 text-xs font-medium text-gray-600">
-            <lucide-icon
-              [name]="userIcon"
-              class="w-4 h-4 text-gray-500"></lucide-icon>
+            <lucide-icon [name]="userIcon" class="w-4 h-4 text-gray-500"></lucide-icon>
             Nome completo
           </label>
           <div class="relative">
@@ -59,8 +66,7 @@
           </label>
           <input
             type="email"
-            [ngModel]="email()"
-            (ngModelChange)="emailChange.emit($event)"
+            [(ngModel)]="email"
             name="email"
             placeholder="nome@esempio.it"
             required
@@ -77,17 +83,14 @@
           </label>
 
           @if (isLogin()) {
-            <button type="button" class="text-xs text-red-600 hover:underline">
-              Dimenticata?
-            </button>
+            <button type="button" class="text-xs text-red-600 hover:underline">Dimenticata?</button>
           }
         </div>
 
         <div class="relative">
           <input
             [type]="showPassword() ? 'text' : 'password'"
-            [ngModel]="password()"
-            (ngModelChange)="passwordChange.emit($event)"
+            [(ngModel)]="password"
             name="password"
             placeholder="••••••••"
             required
@@ -101,7 +104,8 @@
           >
             <lucide-icon
               [name]="showPassword() ? eyeIcon : eyeOffIcon"
-              class="w-5 h-5"></lucide-icon>
+              class="w-5 h-5"
+            ></lucide-icon>
           </button>
         </div>
       </div>
@@ -118,27 +122,39 @@
     <!-- Sezione google login -->
     @if (isLogin()) {
       <div class="flex flex-col items-center gap-4 -translate-y-1/6">
-        <p class="text-[10px] uppercase font-bold tracking-widest bg-barber-primary/30">Oppure continua con</p>
+        <p class="text-[10px] uppercase font-bold tracking-widest bg-barber-primary/30">
+          Oppure continua con
+        </p>
         <div class="flex gap-4 w-1/4">
           <button
             (click)="loginWithGoogle()"
-            class="flex-1 border bg-barber-primary/10 rounded-2xl py-3.5 flex items-center justify-center transition-all group">
-            <img ngSrc="https://www.google.com/favicon.ico" width="64" height="64" alt="Google"
-                 class="w-6 h-6 grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all"
-                  />
+            class="flex-1 border bg-barber-primary/10 rounded-2xl py-3.5 flex items-center justify-center transition-all group"
+          >
+            <img
+              ngSrc="https://www.google.com/favicon.ico"
+              width="64"
+              height="64"
+              alt="Google"
+              class="w-6 h-6 grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all"
+            />
           </button>
         </div>
       </div>
     }
 
     <p class="mt-8 text-center text-sm text-neutral-500">
-      @if(isLogin()) {Non hai un account?} @else{"Hai già un account?"}
-      <button
-        (click)="switchIsLogin()"
-      className="font-bold text-barber-accent hover:underline">
-        @if(isLogin()) {Registrati} @else{"Accedi"}
+      @if (isLogin()) {
+        Non hai un account?
+      } @else {
+        "Hai già un account?"
+      }
+      <button (click)="switchIsLogin()" className="font-bold text-barber-accent hover:underline">
+        @if (isLogin()) {
+          Registrati
+        } @else {
+          "Accedi"
+        }
       </button>
     </p>
   </div>
 </div>
-

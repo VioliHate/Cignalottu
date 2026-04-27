@@ -1,11 +1,9 @@
 <main class="flex items-center justify-center bg-barber-cream min-h-[80vh] p-4 sm:p-6">
-    <login-form
-      [isLogin]="isLogin()"
-      (isLoginChange)="isLogin.set($event)"
-      [email]="email()"
-      (emailChange)="email.set($event)"
-      [password]="password()"
-      (passwordChange)="password.set($event)"
-      (submit)="onSubmit($event)"
-    />
+  <login-form
+    [(isLogin)]="isLogin"
+    [(email)]="email"
+    [(password)]="password"
+    (isLoginChange)="isLogin.set($event)"
+    (submit)="onSubmit($event)"
+  />
 </main>

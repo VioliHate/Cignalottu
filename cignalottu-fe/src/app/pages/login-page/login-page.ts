@@ -1,9 +1,16 @@
-import {Component, signal} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
-import {ArrowRight, LucideAngularModule, Mail, Scissors, ShoppingBag, User, Lock} from 'lucide-angular';
-import {LoginForm} from '../../components/login-form/login-form';
-
+import { Component, effect, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import {
+  ArrowRight,
+  LucideAngularModule,
+  Mail,
+  Scissors,
+  ShoppingBag,
+  User,
+  Lock,
+} from 'lucide-angular';
+import { LoginForm } from '../../components/login-form/login-form';
 
 @Component({
   selector: 'app-login-page',
@@ -25,5 +32,11 @@ export class LoginPage {
 
     this.email.set('');
     this.password.set('');
+  }
+
+  constructor() {
+    effect(() => {
+      console.log(this.isLogin);
+    });
   }
 }
