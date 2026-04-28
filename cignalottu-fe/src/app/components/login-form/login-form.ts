@@ -1,7 +1,8 @@
-import { Component, EventEmitter, model, Output, output, signal } from '@angular/core';
+import { Component, EventEmitter, inject, model, Output, output, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ArrowRight, Eye, EyeOff, Lock, LucideAngularModule, Mail, User } from 'lucide-angular';
 import { NgClass, NgOptimizedImage } from '@angular/common';
+import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'login-form',
@@ -10,6 +11,7 @@ import { NgClass, NgOptimizedImage } from '@angular/common';
   styleUrl: './login-form.css',
 })
 export class LoginForm {
+  private dialogRef = inject(DialogRef); // <--- Magia della DI
   protected readonly userIcon = User;
   protected readonly mailIcon = Mail;
   protected readonly lockIcon = Lock;
