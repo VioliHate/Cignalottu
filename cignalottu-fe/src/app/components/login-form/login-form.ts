@@ -18,7 +18,7 @@ export class LoginForm {
   protected readonly eyeIcon = Eye;
   protected readonly eyeOffIcon = EyeOff;
 
-  isLogin = model<boolean>(true);
+  isLogin = signal(true);
   email = '';
   password = '';
   lastName = '';
@@ -37,27 +37,20 @@ export class LoginForm {
   }
 
   onSubmit() {
+    console.log('INVIO CREDENZIALI ->', {
+      email: this.email,
+      password: this.password,
+      lastname: this.lastName,
+      fistname: this.firstName,
+    });
     this.loading.set(true);
     this.error.set('');
 
-    setTimeout(() => {
-      if (this.email === 'test@test.it') {
-        const userData = { email: this.email, token: '12345' };
-
-        if (this.dialogRef) {
-          this.dialogRef.close(userData);
-        }
-      } else {
-        this.error.set('Credenziali non valide');
-        this.loading.set(false);
-      }
-    }, 1500);
+    //gestire qui la chiamata al BE
   }
 
   loginWithGoogle() {
     console.log('Avvio login con Google');
-
-    // this.authService.googleSignIn();
   }
 
   protected switchIsLogin() {
