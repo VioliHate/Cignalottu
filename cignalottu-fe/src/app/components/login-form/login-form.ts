@@ -1,9 +1,8 @@
-import { Component, EventEmitter, inject, model, Output, output, signal } from '@angular/core';
+import { Component, inject, model, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ArrowRight, Eye, EyeOff, Lock, LucideAngularModule, Mail, User } from 'lucide-angular';
 import { NgClass, NgOptimizedImage } from '@angular/common';
-import { DialogRef } from '@angular/cdk/dialog';
-
+import { DialogRef } from '../../utils/dialog/dialog-ref';
 @Component({
   selector: 'login-form',
   imports: [FormsModule, LucideAngularModule, ReactiveFormsModule, NgClass, NgOptimizedImage],
