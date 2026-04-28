@@ -1,20 +1,18 @@
 import { OverlayRef } from '@angular/cdk/overlay';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 
-export class DialogRef<T = unknown> {
-
-  private closed$ = new Subject<T | undefined>();
+export class DialogRef {
+  private _afterClosed = new Subject<any>();
 
   constructor(private overlayRef: OverlayRef) {}
 
-  close(result?: T) {
+  close(result?: any) {
     this.overlayRef.dispose();
-    this.closed$.next(result);
-    this.closed$.complete();
+    this._afterClosed.next(result);
+    this._afterClosed.complete();
   }
 
-  afterClosed() {
-    return this.closed$.asObservable();
+  afterClosed(): Observable<any> {
+    return this._afterClosed.asObservable();
   }
-
 }

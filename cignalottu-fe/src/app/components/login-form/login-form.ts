@@ -23,7 +23,13 @@ export class LoginForm {
   lastName = model<string>('');
   firstName = model<string>('');
 
-  @Output() formSubmit = new EventEmitter<any>();
+  @Output() formSubmit = new EventEmitter<{
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    isLogin: boolean;
+  }>();
 
   showPassword = signal(false);
 

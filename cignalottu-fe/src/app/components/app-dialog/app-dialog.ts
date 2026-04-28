@@ -30,13 +30,16 @@ export class AppDialog {
   }
 
   onAttached(ref: any) {
+    console.log('Componente attaccato:', ref);
+
     if (ref instanceof ComponentRef) {
-      const instance = ref.instance;
-      if (instance.formSubmit) {
-        instance.formSubmit.subscribe((data: any) => {
-          console.log('Evento ricevuto da AppDialog:', data);
-          this.close(data);
+      if (ref.instance.formSubmit) {
+        ref.instance.formSubmit.subscribe((data: any) => {
+          console.log('Ricevuto evento nel dialog:', data);
+          this.dialogRef.close(data);
         });
+      } else {
+        console.error('ERRORE: formSubmit non trovato sul componente!');
       }
     }
   }
