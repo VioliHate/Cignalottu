@@ -20,31 +20,18 @@ export class DialogService {
       positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
     });
     const dialogRef = new DialogRef(overlayRef);
-    const containerPortal = new ComponentPortal(
-      AppDialog,
-      null,
-      this.createInjector(config, dialogRef),
-    );
-    const containerRef = overlayRef.attach(containerPortal);
-    containerRef.instance.portal = new ComponentPortal(
-      config.component,
-      null,
-      this.createInjector(config, dialogRef),
-    );
-    if (!config.disableClose) {
-      overlayRef.backdropClick().subscribe(() => dialogRef.close());
-    }
 
-    return dialogRef;
-  }
-
-  private createInjector(data: unknown, dialogRef: DialogRef) {
-    return Injector.create({
+    const customInjector = Injector.create({
       providers: [
-        { provide: DIALOG_DATA, useValue: data },
+        { provide: DIALOG_DATA, useValue: config },
         { provide: DialogRef, useValue: dialogRef },
       ],
       parent: this.injector,
     });
+
+    const portal = new ComponentPortal(AppDialog, null, customInjector);
+    overlayRef.attach(portal);
+
+    return dialogRef;
   }
 }
