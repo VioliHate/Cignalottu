@@ -1,4 +1,4 @@
-import { Component, inject, Injector } from '@angular/core';
+import { Component, computed, inject, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ComponentPortal, PortalModule } from '@angular/cdk/portal';
 import { DialogRef } from '../../utils/dialog/dialog-ref';
@@ -7,6 +7,7 @@ import { LucideAngularModule, Mail, XIcon } from 'lucide-angular';
 
 @Component({
   selector: 'app-dialog',
+  standalone: true,
   imports: [CommonModule, PortalModule, LucideAngularModule],
   templateUrl: './app-dialog.html',
   styleUrl: './app-dialog.css',
@@ -14,18 +15,15 @@ import { LucideAngularModule, Mail, XIcon } from 'lucide-angular';
 export class AppDialog {
   protected readonly xIcon = XIcon;
   protected readonly mailIcon = Mail;
-  private injector = inject(Injector);
+  private readonly _injector = inject(Injector);
+  readonly config = inject(DIALOG_DATA);
+  private readonly _dialogRef = inject(DialogRef);
 
-  config = inject(DIALOG_DATA);
-  private dialogRef = inject(DialogRef);
-
-  portal = new ComponentPortal(this.config.component);
-
-  constructor() {
-    this.portal = new ComponentPortal(this.config.component, null, this.injector);
-  }
+  portal = computed(() => {
+    return new ComponentPortal(this.config.component, null, this._injector);
+  });
 
   close() {
-    this.dialogRef.close();
+    this._dialogRef.close();
   }
 }
