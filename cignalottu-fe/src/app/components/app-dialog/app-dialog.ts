@@ -26,6 +26,8 @@ export class AppDialog {
   }
 
   close(result?: any) {
+    console.log('4. DialogRef sta chiudendo. Result:', result);
+    console.log("5. L'istanza di DialogRef è:", this);
     this.dialogRef.close(result);
   }
 
@@ -35,7 +37,8 @@ export class AppDialog {
     if (ref instanceof ComponentRef) {
       if (ref.instance.formSubmit) {
         ref.instance.formSubmit.subscribe((data: any) => {
-          console.log('Ricevuto evento nel dialog:', data);
+          console.log('2. Dati arrivati a AppDialog:', data);
+          console.log("3. L'istanza di DialogRef che sto per chiudere è:", this.dialogRef);
           this.dialogRef.close(data);
         });
       } else {
