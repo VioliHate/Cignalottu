@@ -20,20 +20,14 @@ export class LoginForm {
   protected readonly eyeOffIcon = EyeOff;
 
   isLogin = model<boolean>(true);
-  email = model<string>('');
-  password = model<string>('');
-  lastName = model<string>('');
-  firstName = model<string>('');
-
-  @Output() formSubmit = new EventEmitter<{
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    isLogin: boolean;
-  }>();
+  email = '';
+  password = '';
+  lastName = '';
+  firstName = '';
 
   showPassword = signal(false);
+  loading = signal(false);
+  error = signal('');
 
   toggleLogin(value: boolean) {
     this.isLogin.set(value);
@@ -44,14 +38,21 @@ export class LoginForm {
   }
 
   onSubmit() {
-    console.log('1. Click sul tasto invio nel componente FIGLIO');
-    this.formSubmit.emit({
-      firstName: this.firstName(),
-      lastName: this.lastName(),
-      email: this.email(),
-      password: this.password(),
-      isLogin: this.isLogin(),
-    });
+    this.loading.set(true);
+    this.error.set('');
+
+    setTimeout(() => {
+      if (this.email === 'test@test.it') {
+        const userData = { email: this.email, token: '12345' };
+
+        if (this.dialogRef) {
+          this.dialogRef.close(userData);
+        }
+      } else {
+        this.error.set('Credenziali non valide');
+        this.loading.set(false);
+      }
+    }, 1500);
   }
 
   loginWithGoogle() {
