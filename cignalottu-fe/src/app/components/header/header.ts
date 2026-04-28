@@ -34,8 +34,7 @@ export class Header {
     console.log('0. Istanza DialogRef creata nel Header:', dialogRef);
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log('6. DATI ARRIVATI NEL HEADER:', result);
-        console.log('Dati ricevuti nel componente Header:', result);
+        console.log('Login effettuato con successo ', result);
       }
     });
   }
