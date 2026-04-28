@@ -11,7 +11,7 @@ import { DialogRef } from '@angular/cdk/dialog';
   styleUrl: './login-form.css',
 })
 export class LoginForm {
-  private dialogRef = inject(DialogRef); // <--- Magia della DI
+  private dialogRef = inject(DialogRef);
   protected readonly userIcon = User;
   protected readonly mailIcon = Mail;
   protected readonly lockIcon = Lock;
