@@ -1,5 +1,5 @@
 import { OverlayRef } from '@angular/cdk/overlay';
-import { Subject, Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 
 export class DialogRef {
   private _afterClosed = new Subject<any>();
@@ -12,7 +12,7 @@ export class DialogRef {
     this._afterClosed.complete();
   }
 
-  afterClosed(): Observable<any> {
+  afterClosed() {
     return this._afterClosed.asObservable();
   }
 }
