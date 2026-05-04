@@ -25,7 +25,7 @@ export class LoginForm {
   firstName = '';
 
   showPassword = signal(false);
-  loading = signal(false);
+  isLoading = signal(false);
   error = signal('');
 
   toggleLogin(value: boolean) {
@@ -43,7 +43,7 @@ export class LoginForm {
       lastname: this.lastName,
       fistname: this.firstName,
     });
-    this.loading.set(true);
+    this.isLoading.set(true);
     this.error.set('');
 
     //gestire qui la chiamata al BE
