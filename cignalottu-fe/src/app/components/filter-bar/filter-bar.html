@@ -1,7 +1,7 @@
 <div class="flex flex-wrap gap-3 justify-center my-8">
   @for (category of categories(); track category) {
     <button
-      (click)="selectCategory(category)"
+      (click)="select(category)"
       [class]="
         activeCategory() === category
           ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20'
@@ -10,6 +10,13 @@
       class="px-5 py-2 border transition-all duration-300 uppercase text-xs tracking-widest font-medium"
     >
       {{ category }}
+      <span
+        class="absolute -bottom-1 left-0 h-0.5 bg-accent transition-all duration-300"
+        [class.w-full]="activeCategory() === category"
+        [class.w-0]="activeCategory() !== category"
+        [class.group-hover:w-full]="activeCategory() !== category"
+      >
+      </span>
     </button>
   }
 </div>
