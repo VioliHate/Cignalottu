@@ -1,1 +1,20 @@
-<p>shop-window works!</p>
+<section class="bg-black py-2 min-h-screen">
+  <div class="max-w-7xl mx-auto">
+    <app-filter-bar
+      [categories]="allCategories"
+      [activeCategory]="selectedCategory()"
+      (changed)="updateFilter($event)"
+    >
+    </app-filter-bar>
+
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-zinc-800 border border-zinc-800"
+    >
+      @for (item of filteredProducts(); track item.id) {
+        <div class="bg-black">
+          <app-product-card [product]="item"></app-product-card>
+        </div>
+      }
+    </div>
+  </div>
+</section>
