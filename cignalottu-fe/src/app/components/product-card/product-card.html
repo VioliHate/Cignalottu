@@ -1,25 +1,25 @@
-<!-- Card con sfondo Window e bordo Muted -->
 <div
   class="group flex flex-col bg-barber-window border border-barber-border rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-(--color-barber-accent)/10 h-full"
 >
-  <!-- Badge Section -->
-  @if (product().badge) {
-    <div class="absolute top-6 left-6 z-10">
-      <span
-        [ngClass]="{
-          'bg-barber-primary': product().badge === 'new',
-          'bg-barber-accent': product().badge === 'best',
-          'bg-barber-red': product().badge === 'sale',
-        }"
-        class="px-4 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-white rounded-full shadow-lg"
-      >
-        {{ product().badge }}
-      </span>
-    </div>
-  }
-
   <!-- Image Section -->
   <div class="relative aspect-square overflow-hidden bg-barber-cream">
+    <!-- Badge Section -->
+    @if (product().badge) {
+      <div class="absolute top-6 left-6 z-10">
+        <span
+          [ngClass]="{
+            'bg-barber-cream text-barber-text': product().badge === 'new',
+            'bg-barber-accent': product().badge === 'best',
+            'bg-barber-red': product().badge === 'sale',
+            'text-white': product().badge !== 'new',
+          }"
+          class="px-4 py-1 text-[10px] font-bold uppercase tracking-[0.2em] rounded-full shadow-lg"
+        >
+          {{ product().badge }}
+        </span>
+      </div>
+    }
+
     <img
       [src]="product().image"
       [alt]="product().name"
@@ -46,7 +46,7 @@
     >
       <button
         [disabled]="!product().inStock"
-        class="w-full bg-barber-primary text-white py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-barber-accent transition-colors disabled:bg-zinc-400 disabled:cursor-not-allowed shadow-xl"
+        class="w-full bg-barber-text text-white py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-barber-accent/80 transition-colors disabled:bg-zinc-400 disabled:cursor-not-allowed shadow-xl"
       >
         Aggiungi al carrello
       </button>
@@ -61,38 +61,50 @@
         {{ product().category }}
       </span>
       <div class="flex gap-0.5">
-        @for (filled of stars; track $index) {
-          <span
-            class="text-[10px]"
-            [class.text-barber-accent]="filled"
-            [class.text-zinc-300]="!filled"
-            >★</span
-          >
+        @for (star of starRange; track star) {
+          <span class="relative text-[10px] inline-block">
+            @switch (getStarType(star)) {
+              @case ('full') {
+                <span class="text-barber-accent">★</span>
+              }
+
+              @case ('half') {
+                <span class="text-zinc-300">★</span>
+                <span class="absolute top-0 left-0 text-barber-accent overflow-hidden w-[50%]"
+                  >★</span
+                >
+              }
+
+              @case ('empty') {
+                <span class="text-zinc-300">★</span>
+              }
+            }
+          </span>
         }
       </div>
-    </div>
 
-    <!-- Title & Description -->
-    <h3
-      class="text-barber-text font-serif font-bold text-xl mb-2 group-hover:text-barber-accent transition-colors leading-tight"
-    >
-      {{ product().name }}
-    </h3>
+      <!-- Title & Description -->
+      <h3
+        class="text-barber-text font-serif font-bold text-xl mb-2 group-hover:text-barber-accent transition-colors leading-tight"
+      >
+        {{ product().name }}
+      </h3>
 
-    <p class="text-barber-muted text-sm line-clamp-2 mb-6 font-light italic leading-relaxed">
-      {{ product().description }}
-    </p>
+      <p class="text-barber-muted text-sm line-clamp-2 mb-6 font-light italic leading-relaxed">
+        {{ product().description }}
+      </p>
 
-    <!-- Pricing -->
-    <div class="mt-auto flex items-center justify-center gap-3">
-      <span class="text-2xl font-bold text-barber-text tracking-tighter">
-        {{ product().price | currency: 'EUR' }}
-      </span>
-      @if (product().originalPrice) {
-        <span class="text-sm text-barber-muted line-through opacity-60 font-light">
-          {{ product().originalPrice | currency: 'EUR' }}
+      <!-- Pricing -->
+      <div class="mt-auto flex items-center justify-center gap-3">
+        <span class="text-2xl font-bold text-barber-text tracking-tighter">
+          {{ product().price | currency: 'EUR' }}
         </span>
-      }
+        @if (product().originalPrice) {
+          <span class="text-sm text-barber-muted line-through opacity-60 font-light">
+            {{ product().originalPrice | currency: 'EUR' }}
+          </span>
+        }
+      </div>
     </div>
   </div>
 </div>
