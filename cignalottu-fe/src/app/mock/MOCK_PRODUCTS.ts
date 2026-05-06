@@ -76,7 +76,7 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Wooden shaving brush with soft bristles',
     inStock: false,
     rating: 3.9,
-    badge: 'new',
+    badge: 'best',
   },
   {
     id: 8,
