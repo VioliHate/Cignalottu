@@ -11,7 +11,7 @@ export const MOCK_PRODUCTS: Product[] = [
     image: 'assets/products/beard-oil.png',
     description: 'Nourishes and softens the beard with a woody scent',
     inStock: true,
-    rating: 4.8,
+    rating: 4.9,
     badge: 'best',
   },
   {
@@ -22,7 +22,7 @@ export const MOCK_PRODUCTS: Product[] = [
     image: 'assets/products/beard-balm.png',
     description: 'Provides hold and deep hydration',
     inStock: true,
-    rating: 4.9,
+    rating: 4.5,
     badge: 'new',
   },
   {
@@ -33,7 +33,7 @@ export const MOCK_PRODUCTS: Product[] = [
     image: 'assets/products/beard-shampoo.png',
     description: 'Gentle cleansing without irritating the skin',
     inStock: true,
-    rating: 4.7,
+    rating: 3.7,
   },
   {
     id: 4,
