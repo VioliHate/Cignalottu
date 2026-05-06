@@ -1,18 +1,32 @@
-<section class="bg-black py-2 min-h-screen">
-  <div class="max-w-7xl mx-auto">
-    <app-filter-bar
-      [categories]="allCategories"
-      [activeCategory]="selectedCategory()"
-      (changed)="updateFilter($event)"
-    >
-    </app-filter-bar>
+<section class="min-h-screen bg-barber-window pt-24 pb-12 px-6 md:px-16">
+  <div class="max-w-350 mx-auto">
+    <!-- Header elegante centrato -->
+    <header class="text-center mb-16">
+      <div class="w-16 h-0.5 bg-amber-800 mx-auto mb-6"></div>
+      <h1 class="text-4xl md:text-5xl font-serif font-bold text-zinc-900 uppercase tracking-widest">
+        I Nostri <span class="italic font-normal">Prodotti</span>
+      </h1>
+    </header>
 
-    <div
-      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-zinc-800 border border-zinc-800"
-    >
+    <!-- Componente Filtri (Senza bordi scuri ora) -->
+    <div class="flex justify-center mb-16">
+      <app-filter-bar
+        [categories]="allCategories"
+        [activeCategory]="selectedCategory()"
+        (changed)="updateFilter($event)"
+      >
+      </app-filter-bar>
+    </div>
+
+    <!-- Griglia Prodotti: Più distanziata (gap-12) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-12 gap-y-16">
       @for (item of filteredProducts(); track item.id) {
-        <div class="bg-black">
-          <app-product-card [product]="item"></app-product-card>
+        <app-product-card [product]="item"></app-product-card>
+      } @empty {
+        <div class="col-span-full py-32 text-center">
+          <p class="text-gray-400 font-serif italic text-xl">
+            Nessun prodotto disponibile in questa categoria.
+          </p>
         </div>
       }
     </div>
